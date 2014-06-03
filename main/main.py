@@ -20,6 +20,7 @@ import admin
 import auth
 import task
 import user
+import model
 
 
 if config.DEVELOPMENT:
@@ -30,9 +31,29 @@ if config.DEVELOPMENT:
 ###############################################################################
 # Main page
 ###############################################################################
-@app.route('/')
+class GreetingForm(wtf.Form):
+  content = wtf.TextAreaField('Content', [wtf.validators.required()], filters=[util.strip_filter])
+
+
+@app.route('/', methods=['GET', 'POST'])
 def welcome():
-  return flask.render_template('welcome.html', html_class='welcome')
+  form = GreetingForm()
+
+  if form.validate_on_submit():
+    greeting_db = model.Greeting(content=form.content.data)
+    if auth.is_logged_in():
+      greeting_db.user_key = auth.current_user_key()
+    greeting_db.put()
+    flask.flash('Thank you for your greeting!')
+    return flask.redirect(flask.url_for('welcome'))
+
+  greeting_dbs, greeting_cursor = model.Greeting.get_dbs()
+  return flask.render_template(
+      'welcome.html',
+      html_class='welcome',
+      form=form,
+      greeting_dbs=greeting_dbs,
+    )
 
 
 ###############################################################################
@@ -60,6 +81,8 @@ class ProfileUpdateForm(wtf.Form):
       [wtf.validators.optional(), wtf.validators.email()],
       filters=[util.email_filter],
     )
+  birthdate = wtf.DateField('Birthdate', [wtf.validators.optional()])
+  about = wtf.TextAreaField('About', [wtf.validators.optional()])
 
 
 @app.route('/_s/profile/', endpoint='profile_service')

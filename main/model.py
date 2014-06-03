@@ -61,6 +61,9 @@ class User(Base, modelx.User, modelq.User):
   admin = ndb.BooleanProperty(default=False)
   permissions = ndb.StringProperty(repeated=True)
 
+  birthdate = ndb.DateProperty()
+  about = ndb.TextProperty()
+
   _PROPERTIES = Base._PROPERTIES.union({
       'active',
       'admin',
@@ -71,3 +74,8 @@ class User(Base, modelx.User, modelq.User):
       'username',
       'permissions',
     })
+
+
+class Greeting(Base):
+  user_key = ndb.KeyProperty(kind=User)
+  content = ndb.StringProperty(required=True, indexed=False)

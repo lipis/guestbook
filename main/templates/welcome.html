@@ -1,4 +1,5 @@
 # extends 'base.html'
+# import 'macro/forms.html' as forms
 
 # block header
   <div class="jumbotron">
@@ -10,22 +11,31 @@
 # endblock
 
 # block content
-  <div class="row">
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-    <div class="col-sm-6 col-md-12 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-  </div>
+  <form method="POST" action="." novalidate>
+    {{form.csrf_token}}
+
+    {{forms.textarea_field(form.content)}}
+    <button type="submit" class="btn btn-primary btn-lg btn-block">
+      Sign Guestbook
+    </button>
+  </form>
+
+  # for greeting_db in greeting_dbs
+    <hr>
+    <blockquote>
+      <p>{{greeting_db.content}}</p>
+      <div class="small">
+        <time class="text-success pull-right" datetime="{{greeting_db.created.__str__()[:-3]}}">
+          {{greeting_db.created.strftime('%Y-%m-%d')}}
+        </time>
+
+        # if greeting_db.user_key
+          <img src="{{greeting_db.user_key.get().avatar_url_size(36)}}" width="18">
+          {{greeting_db.user_key.get().name}}
+        # else
+          Anonymous
+        # endif
+      </div>
+    </blockquote>
+  # endfor
 # endblock

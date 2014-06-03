@@ -84,6 +84,7 @@
           <th class="col-xs-3"><input id="select-all" type="checkbox"> {{utils.order_by_link('name', 'Name')}}</th>
           <th class="col-xs-1">{{utils.order_by_link('username', 'Username')}}</th>
           <th class="col-xs-2">{{utils.order_by_link('email', 'Email')}}</th>
+          <th class="col-xs-2">{{utils.order_by_link('birthdate', 'Birthdate')}}</th>
           <th class="col-xs-2">{{utils.order_by_link('created', 'Created')}}</th>
           <th class="col-xs-2">{{utils.order_by_link('modified', 'Modified')}}</th>
           <th class="col-xs-2">Permissions</th>
@@ -103,6 +104,7 @@
             </td>
             <td>{{user_db.username}}</td>
             <td>{{user_db.email}}</td>
+            <td>{{user_db.birthdate or '-'}}</td>
             <td>
               <time datetime="{{user_db.created.__str__()[:-3]}}">
                 {{user_db.created.strftime('%Y-%m-%d')}}
