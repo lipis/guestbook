@@ -13,16 +13,16 @@
   },
   "dependencies": {
     "coffee-script": "~1",
-    "less": "~1",
-    "uglify-js": "~2"
+    "less": "~2.7.3",
+    "uglify-js": "~3.2.1"
   },
   "devDependencies": {
     "bower": "~1",
-    "grunt": "~0",
+    "grunt": "~1.0.1",
     "grunt-bower-task": "~0",
-    "grunt-cli": "~0",
-    "grunt-contrib-clean": "~0",
-    "grunt-contrib-watch": "~0",
-    "load-grunt-tasks": "~0"
+    "grunt-cli": "~1.2.0",
+    "grunt-contrib-clean": "~1.1.0",
+    "grunt-contrib-watch": "~1.0.0",
+    "load-grunt-tasks": "~3.5.2"
   }
 }
